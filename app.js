@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var port = process.env.PORT || 3000;
+var dotenv = require('dotenv').config();
 var mongo = require('./mongo.js');
 
 app.use('/', express.static(path.join(__dirname, 'public')));
