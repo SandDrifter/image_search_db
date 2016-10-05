@@ -47,9 +47,11 @@ function filterImageInfo(images) {
   var results = [];
   for (var i = 1; i < images.length; i++) {
     var result = {};
-    result['imageUrl'] =  images[i]['hostPageDisplayUrl'];
+    var imageUrlStart = images[i]['contentUrl'].search('&r=') + 3;
+    var imageUrlEnd = images[i]['contentUrl'].search('&p=');
     var hostPageUrlStart = images[i]['hostPageUrl'].search('&r=') + 3;
     var hostPageUrlEnd = images[i]['hostPageUrl'].search('&p=');
+    result['imageUrl'] =  decodeURIComponent(images[i]['contentUrl'].substring(imageUrlStart, imageUrlEnd));
     result['hostPageUrl'] = decodeURIComponent(images[i]['hostPageUrl'].substring(hostPageUrlStart, hostPageUrlEnd));
     result['altText'] = images[i]['name'];
     results.push(result);
