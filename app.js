@@ -51,6 +51,40 @@ app.get('/search/:srchString', function(req, res) {
   }
 });
 
+app.get('/history', function(req, res) {
+  var history = [];
+  mongo.getColl('imageSearchHistory')
+  .then(function(coll) {
+    var cursor = coll.find({});
+    cursor.project({
+      '_id': 0,
+      'searchTerm': 1,
+      'searchTime': 1
+    });
+    cursor.limit(10);
+    cursor.sort({'searchTime': -1});
+    cursor.forEach(
+      function(doc) {
+        var pieceOfHistory = {};
+        pieceOfHistory['searchTerm'] = doc['searchTerm'];
+        pieceOfHistory['searchTime'] = new Date(doc['searchTime']).toLocaleString();
+        history.push(pieceOfHistory);
+      },
+      function(errorOrDone) {
+        if (history.length > 0) {
+          res.json(history);
+        }
+        else {
+          res.json({'Message': 'There have not yet been any search queries.'});
+        }
+      }
+    );
+  },
+  function(error) {
+    res.json({'Error': 'Could not retrieve search term history. Please try again later.'});
+  });
+});
+
 app.use(function(req, res) {
   res.redirect(404, '/index.html');
 });
