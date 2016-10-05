@@ -50,3 +50,7 @@ app.get('/search/:srchString', function(req, res) {
     res.json({"Error": "Invalid search term. Only alhpanumeric characters and spaces allowed"});
   }
 });
+
+app.use(function(req, res) {
+  res.redirect(404, '/index.html');
+});
