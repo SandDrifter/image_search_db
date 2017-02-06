@@ -1,5 +1,7 @@
 var mongo = require('mongodb').MongoClient;
-var dbPath = process.env.MONGOLAB_URI_IMAGE_SEARCH;
+var config = require("./config");
+//var dbPath = 'mongodb://batman:password69@ds031597.mlab.com:31597/image_search_db'
+var dbUrl = config.db.url;
 var connectedDB = null;
 var connectedColls = {};
 
@@ -13,7 +15,7 @@ function initDB() {
   var promise = new Promise(function(resolve, reject) {
     if (connectedDB === null) {
       console.log('Initial retrieval of DB');
-      mongo.connect(dbPath).then(function(db) {
+      mongo.connect(dbUrl).then(function(db) {
         resolve(db);
       }, function(err) {
         reject(err);

@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 var dotenv = require('dotenv').config();
 var mongo = require('./mongo.js');
 var imageSearch = require('./image-search');

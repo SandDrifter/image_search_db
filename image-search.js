@@ -1,5 +1,6 @@
 var https = require('https');
-var apiKey = process.env.BING_SEARCH_API_KEY;
+var config = require("./config");
+var apiKey = config.apiKey.bingImageSearch;
 var apiHost = 'api.cognitive.microsoft.com';
 var apiPath = '/bing/v5.0/images/search[?q][&offset]&count=10';
 
@@ -26,7 +27,7 @@ function getImages(srchString, offset) {
       });
       res.on('end', function() {
         images = JSON.parse(images).value;
-        if (images.length > 1) {
+        if (images.length > 1 && images!="undefined") {
           resolve(filterImageInfo(images));
         }
         else {
